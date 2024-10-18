@@ -1,4 +1,4 @@
-name : CI #워크플로우의 이름 지정
+name : CICD #워크플로우의 이름 지정
 
 
 #on
@@ -49,3 +49,15 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+
+      #현재시간 가져오기
+      - name: get current time
+        uses: josStore/get-current-time@v2.0.2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+      
+      #빌드된 파일을 저장하고 환경 변수를 설정하는 단계
+      - name: Set artifact
+        run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
